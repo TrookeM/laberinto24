@@ -2,134 +2,146 @@ class Game:
     def __init__(self):
         self.maze = None
 
-    def createWall(self):
+    def create_wall(self):
         return Wall()
-    
-    def createDoor(self,side1,side2):
-        door=Door(side1,side2)
-        return door  
-    
-    def createRoom(self, id):
-        room=Room(id)
-        room.north=self.createWall()
-        room.east=self.createWall()
-        room.south=self.createWall()
-        room.west=self.createWall()
+
+    def create_door(self, side1, side2):
+        door = Door(side1, side2)
+        return door
+
+    def create_room(self, room_id):
+        room = Room(room_id)
+        room.north = self.create_wall()
+        room.east = self.create_wall()
+        room.south = self.create_wall()
+        room.west = self.create_wall()
         return room
 
-    def createMaze(self):
+    def create_maze(self):
         return Maze()
-    
-    def make2RoomsMazeFM(self):
-        self.maze = self.createMaze()
-        room1 = self.createRoom(1)
-        room2 = self.createRoom(2)
-        door = self.createDoor(room1,room2)
-        room1.south=door
-        room2.north=door
-        self.maze.addRoom(room1)
-        self.maze.addRoom(room2)
-        return self.maze
-    
-    def make2RoomsMaze(self):
-        self.maze = Maze()
-        room1 = Room(1)
-        room2 = Room(2)
-        self.maze.addRoom(room1)
-        self.maze.addRoom(room2)
 
-        door=Door(room1,room2)
+    def make_2_rooms_maze_fm(self):
+        self.maze = self.create_maze()
+        room1 = self.create_room(1)
+        room2 = self.create_room(2)
+        door = self.create_door(room1, room2)
+        room1.south = door
+        room2.north = door
+        self.maze.add_room(room1)
+        self.maze.add_room(room2)
+        return self.maze
+
+    def make_2_rooms_maze(self):
+        self.maze = self.create_maze()
+        room1 = self.create_room(1)
+        room2 = self.create_room(2)
+        self.maze.add_room(room1)
+        self.maze.add_room(room2)
+
+        door = self.create_door(room1, room2)
         room1.south = door
         room2.north = door
         return self.maze
+
 
 class BombedGame(Game):
     def create_wall(self):
         return BombedWall()
 
+
 class MapElement:
     def __init__(self):
         pass
-    def entrar(self):
+
+    def enter(self):
         pass
 
-class Contenedor(MapElement):
+
+class Container(MapElement):
     def __init__(self):
-        self.hijos=[]
-        
-    def agregarHijo(self, hijo):
-        self.hijos.append(hijo)
-        
-    def eliminarHijo(self, hijo):
-        self.hijos.remove(hijo)
+        self.children = []
+
+    def add_child(self, child):
+        self.children.append(child)
+
+    def remove_child(self, child):
+        self.children.remove(child)
 
 
-class Hoja(MapElement):
+class Leaf(MapElement):
     def accept(self, visitor):
-        visitor.visitHoja(self)
+        visitor.visit_leaf(self)
 
-class Decorator(Hoja):
+
+class Decorator(Leaf):
     def __init__(self, component):
         self.component = component
 
-class Maze(Contenedor):
+
+class Maze(Container):
     def __init__(self):
         self.rooms = []
-    
-    def addRoom(self, room):
-        self.rooms.append(room)
-    
-    def entrar(self):
-        self.rooms[0].entrar()  
 
-class Room(Contenedor):
-    def __init__(self,id):
+    def add_room(self, room):
+        self.rooms.append(room)
+
+    def enter(self):
+        self.rooms[0].enter()
+
+
+class Room(Container):
+    def __init__(self, room_id):
         self.north = None
         self.east = None
         self.west = None
         self.south = None
-        self.id = id
-    
-    def entrar(self):
-        print("You enter room", self.id)
+        self.id = room_id
+
+    def enter(self):
+        print("Has entrado a la habitación", self.id)
+
 
 class Door(MapElement):
     def __init__(self, side1, side2):
         self.side1 = side1
         self.side2 = side2
         self.opened = False
-    def entrar(self):
+
+    def enter(self):
         if self.opened:
-            self.side2.entrar()
+            self.side2.enter()
         else:
-            print("The door is locked")
-    
+            print("La pueera esta cerrada.")
+
+
 class Wall(MapElement):
     def __init__(self):
-        pass # Walls don't need additional attributes
-    def entrar(self):
-        print("You can't go through walls")
+        pass  # Walls don't need additional attributes
+
+    def enter(self):
+        print("No puedes atravesaar paredes...")
+
 
 class BombedWall(Wall):
     def __init__(self):
-        self.active = False   
-    def entrar(self):
+        self.active = False
+
+    def enter(self):
         if self.active:
-            print("the bomb has detonated")
+            print("La bomba ha explotado!")
         else:
-            return super().entrar()
+            return super().enter()
 
+
+# Usage examples
+game = Game()
+game.make_2_rooms_maze()
+game.maze.enter()
 
 game = Game()
-game.make2RoomsMaze()
-game.maze.entrar()
+game.make_2_rooms_maze_fm()
+game.maze.enter()
 
-game = Game()
-game.make2RoomsMazeFM()
-
-game=BombedGame()
-game.make2RoomsMazeFM()
-game.maze.entrar() 
-
-
-
+game = BombedGame()
+game.make_2_rooms_maze_fm()
+game.maze.enter()

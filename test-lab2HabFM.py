@@ -5,7 +5,7 @@ class TestMazeGame(unittest.TestCase):
 
     def test_create_maze(self):
         game = Game()
-        maze = game.createMaze2HabFM()
+        maze = game.create_2_room_maze_fm()  # <- Agrega los paréntesis para llamar a la función
         
         self.assertIsInstance(maze, Maze)
         
@@ -32,7 +32,7 @@ class TestMazeGame(unittest.TestCase):
         self.assertIsNot(room1.north, room2.north)
         self.assertIsNot(room1.south, room2.south)
         
-        #verifica que al sur de room1 hay un objeto de tipo puerta
+        # Verifica que al sur de room1 hay un objeto de tipo puerta
         self.assertIsInstance(room1.south, Door)
 
 
