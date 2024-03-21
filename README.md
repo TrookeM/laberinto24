@@ -3,11 +3,13 @@
 The code (maze.py) in this repository has been developed with the assistance of SourceGraph Cody
 
 **Initial prompt:**
+```ruby
 Escriba un programa en Python con los siguientes objetos: Laberinto, Pared, Puerta y Habitación.
 El objeto Laberinto tiene una colección de objetos Sala.
 El objeto Habitación tiene cuatro lados (norte, este, oeste, sur), inicialmente cada lado es un objeto Pared.
 El objeto Puerta tiene dos lados que podrían ser objetos Habitación.
 El objeto Maze tiene una operación addRoom con un objeto Room como parámetro.
+```
 
 **Decorator prompt:**
 ```ruby
