@@ -1,158 +1,128 @@
 import random
 
-# Elemento del Mapa
 class ElementoMapa:
-  def __init__(self):
-    pass
+    def __init__(self):
+        pass
+    
+    def entrar(self, alguien):
+        pass
 
-  def entrar(self, alguien):  # Changed "someone" to "alguien" for consistency
-    pass
+    def imprimir(self):
+        print("ElementoMapa")
+    
+    def esHabitacion(self):
+        return False
 
-  def imprimir(self):
-    print("ElementoMapa")
+    def esPuerta(self):
+        return False
+    
+    def recorrer(self, unBloque):
+        pass
 
-  def esHabitacion(self):
-    return False
+    def abrir(self):
+        pass
+
+    def cerrar(self):
+        pass
+
+    def recorrer(self,unBloque):
+        unBloque(self)
 
 class Contenedor(ElementoMapa):
-  # Composite
-  def __init__(self):
-    super().__init__()
-    self.hijos = []  # Changed "children" to "hijos" (children in Spanish)
-    self.orientaciones = []
-
-  def agregar_componente(self, componente):
-    self.hijos.append(componente)
-
-  def remover_componente(self, componente):
-    self.hijos.remove(componente)
-
-  def imprimir(self):
-    print("Contenedor")
-
-  def caminar_aleatorio(self, alguien):  # Introduced "caminar_aleatorio" for walkRandom
-    pass
-
-  def agregar_orientacion(self, orientacion):
-    self.orientaciones.append(orientacion)
-
-  def remover_orientacion(self, orientacion):
-    self.orientaciones.remove(orientacion)
-
-  def caminar_aleatorio(self, alguien):
-    orientacion = self.obtener_orientacion_aleatoria()
-    orientacion.caminar_aleatorio(alguien)
-
-  def obtener_orientacion_aleatoria(self):
-    return random.choice(self.orientaciones)
-
-  def ir_al_norte(self, alguien):
-    self.norte.entrar(alguien)
-
-  def ir_al_este(self, alguien):
-    self.este.entrar(alguien)
-
-  def ir_al_sur(self, alguien):
-    self.sur.entrar(alguien)
-
-  def ir_al_oeste(self, alguien):
-    self.oeste.entrar(alguien)
-
-  def establecer_elemento_y_orientacion(self, elemento, orientacion):
-    orientacion.establecer_elemento_y_orientacion(elemento, self)
-
-class Laberinto(Contenedor):
-  def __init__(self):
-    super().__init__()
-
-  def agregar_habitacion(self, habitacion):
-    self.agregar_componente(habitacion)
-
-  def entrar(self, alguien):
-    self.hijos[0].entrar(alguien)
-
-  def imprimir(self):
-    print("Laberinto")
-
-  def obtener_habitacion(self, id):
-    for habitacion in self.hijos:
-      if habitacion.id == id:
-        return habitacion
-    return None
-
-class Habitacion(Contenedor):
-  def __init__(self, id_habitacion):
-    super().__init__()
-    self.id = id_habitacion
-    self.norte = None
-    self.sur = None
-    self.este = None
-    self.oeste = None
-
-  def entrar(self, alguien):
-    print(alguien + " entra a la habitación", self.id)
-
-  def imprimir(self):
-    print("Habitación")
-
-  def esHabitacion(self):
-    return True
-
-class Hoja(ElementoMapa):
-  def __init__(self):
-    super().__init__()
-
-  def imprimir(self):
-    print("Hoja")
-
-class Decorador(Hoja):
-  def __init__(self):
-    super().__init__()
-    self.componente = None
-
-  def imprimir(self):
-    print("Decorador")
-
-class Bomba(Decorador):
-  def __init__(self):
-    super().__init__()
-    self.activa = False
-
-  def imprimir(self):
-    print("Bomba")
-
-  def entrar(self, alguien):
-    print(alguien + " pisó una bomba")
-
-# Laberinto (modificado ligeramente)
-class Laberinto(Contenedor):
-  def __init__(self):
-    self.habitaciones = []  # Changed "children" to "habitaciones" for clarity
-
-  def agregar_habitacion(self, habitacion):
-    self.habitaciones.append(habitacion)
-
-  def entrar(self, alguien):
-    self.habitaciones[0].entrar(alguien)
-
-  def imprimir(self):
-    print("Laberinto")
-
-class Habitacion(Contenedor):
-    def __init__(self, id_habitacion):
+    def __init__(self):
         super().__init__()
-        self.id = id_habitacion
-        self.norte = None
-        self.sur = None
-        self.este = None
-        self.oeste = None
+        self.hijos = []
+        self.num = None    
+        self.forma = None    
 
-    def entrar(self):
-        print("Has entrado a la habitación", self.id)
+    def agregarHijo(self, componente):
+        self.hijos.append(componente)
+
+    def removerHijo(self, componente):
+        self.hijos.remove(componente)
+    
+    def imprimir(self):
+        print("Contenedor")
+    
+    def caminarAleatorio(self, alguien):
+        pass
+
+    def agregarOrientacion(self, orientacion):
+        self.forma.agregarOrientacion(orientacion)
+    
+    def removerOrientacion(self, orientacion):
+        self.forma.removerOrientacion(orientacion)
+
+    def caminarAleatorio(self, alguien):        
+        orientacion = self.forma.getOrientacionAleatoria()
+        orientacion.caminarAleatorio(alguien)
+   
+    def irNorte(self, alguien):
+        self.forma.irNorte(alguien)
+
+    def irEste(self, alguien):
+        self.forma.irEste(alguien)
+
+    def irSur(self, alguien):
+        self.forma.irSur(alguien)
+
+    def irOeste(self, alguien):
+        self.forma.irOeste(alguien)
+
+    def setEMinOr(self, em, orientacion):
+        self.forma.setEMinOr(em, orientacion)
+    
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for hijo in self.hijos:
+            hijo.recorrer(unBloque)
+        self.forma.recorrer(unBloque)
+
+class Laberinto(Contenedor):
+    def __init__(self):
+        super().__init__()
+
+    def agregarHabitacion(self, habitacion):
+        self.agregarHijo(habitacion)
+
+    def entrar(self, alguien):
+        self.hijos[0].entrar(alguien)
+
+    def imprimir(self):
+        print("Laberinto")   
+    
+    def obtenerHabitacion(self, num):
+        for habitacion in self.hijos:
+            if habitacion.num == num:
+                return habitacion
+        return None
+
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for hijo in self.hijos:
+            hijo.recorrer(unBloque)
+    
+    def getOrientations(self):
+        pass
+
+class Habitacion(Contenedor):
+    def __init__(self, num):
+        super().__init__()
+        self.num = num
+
+    def entrar(self, alguien):
+        print(str(alguien) + " entra a la habitación " + str(self.num) + "\n")
+        alguien.posicion = self
     
     def imprimir(self):
         print("Habitación")
 
+    def esHabitacion(self):
+        return True
+
+    def __str__(self):
+        return "Habitación-" + str(self.num) + "\n"
+    
 class Hoja(ElementoMapa):
     def __init__(self):
         super().__init__()
@@ -163,167 +133,379 @@ class Hoja(ElementoMapa):
 class Decorador(Hoja):
     def __init__(self):
         super().__init__()
-        self.componente = None
+        self.comp = None
     
     def imprimir(self):
         print("Decorador")
 
+class Tunel(Leaf):
+    def __init__(self):
+        super().__init__()
+        self.maze = None
+    def enter(self,alguien):
+        print(str(alguien) + " entrar al tunel"+"\n")
+        self.maze=alguien.game.cloneMaze()
+        self.maze.enter(alguien)
+
 class Bomba(Decorador):
-    pass
-
-# Laberinto
-class Laberinto(Contenedor):
-    def __init__(self):
-        self.habitaciones = []
-
-    def agregar_habitacion(self, habitacion):
-        self.habitaciones.append(habitacion)
-    
-    def entrar(self):
-        self.habitaciones[0].entrar()
-    
-    def imprimir(self):
-        print("Laberinto")
-
-# Pared
-class Pared(ElementoMapa):
-    def __init__(self):
-        pass
-
-    def imprimir(self):
-        print("Pared")
-
-    def entrar(self, alguien):
-        print(alguien, " chocó contra una pared")
-
-# ParedBomba
-class ParedConBombas(Pared):
     def __init__(self):
         super().__init__()
         self.activa = False
 
     def imprimir(self):
-        print("Pared con Bombas")
+        print("Bomba")
 
     def entrar(self, alguien):
-        print(alguien + " chocó contra una pared con bombas")
-        if self.activa:
-            print(alguien + " detonó una bomba")
+        print(alguien + " ha caído en una bomba" + "\n")
 
+class Pared(ElementoMapa):
+    def __init__(self):
+        pass
+    
+    def imprimir(self):
+        print("Pared")
 
-# Puerta
+    def entrar(self, alguien):
+        print(alguien , " se ha encontrado con una pared" + "\n")
+
+class ParedConBomba(Pared):
+    def __init__(self):
+        super().__init__()
+        self.activa = False
+    
+    def imprimir(self):
+        print("ParedConBomba")
+
 class Puerta(ElementoMapa):
     def __init__(self, lado1, lado2):
         self.lado1 = lado1
         self.lado2 = lado2
         self.abierta = False
-
+    
     def entrar(self, alguien):
         if self.abierta:
-            self.lado2.entrar(alguien)
+            if alguien.posicion == self.lado1:
+                self.lado2.entrar(alguien)
+            else:
+                self.lado1.entrar(alguien)
         else:
-            print("La puerta está cerrada")
+            print("La puerta " + str(self) + " está cerrada" + "\n")
+    
+    def __str__(self):
+        return "Puerta-" + str(self.lado1) + "-" + str(self.lado2)
+    
+    def abrir(self):
+        print("Abriendo la puerta entre " + str(self.lado1) + " y " + str(self.lado2) + "\n")
+        self.abierta = True
+    
+    def cerrar(self):
+        print("Cerrando la puerta entre " + str(self.lado1) + " y " + str(self.lado2) + "\n")
+
+    def esPuerta(self):
+        return True
+
+class Orientacion:
+    def __init__(self):
+        pass
+    
+    def caminarAleatorio(self, alguien):
+        pass
+    
+    def setEMinOr(self, em, unContenedor):
+        pass
+
+    def recorrerEn(self, unBloque, unContenedor):
+        pass
+
+class Norte(Orientacion):
+    _instancia = None
+
+    def __init__(self):
+        if not Norte._instancia:
+            super().__init__()
+            Norte._instancia = self
+
+    def setEMinOr(self, em, unContenedor):
+        unContenedor.norte = em
+
+    @classmethod
+    def obtener_instancia(cls):
+        if not cls._instancia:
+            cls._instancia = Norte()
+        return cls._instancia
 
     def imprimir(self):
-        print("Puerta")
+        print("Norte")
+    
+    def caminarAleatorio(self, alguien):
+        alguien.irNorte()
 
-    def abrir(self):
-        self.abierta = True
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.norte.recorrer(unBloque)
 
-    def cerrar(self):
-        self.abierta = False
+class Sur(Orientacion):
+    _instancia = None
 
-class Orientación:
-  def __init__(self):
-    pass
+    def __init__(self):
+        if not Sur._instancia:
+            super().__init__()  
+            Sur._instancia = self
 
-  def caminar_aleatorio(self, alguien):
-    pass
+    @staticmethod 
+    def obtener_instancia():
+        if not Sur._instancia:
+            Sur()
+        return Sur._instancia
+    
+    def imprimir(self):
+        print("Sur")
+    
+    def caminarAleatorio(self, alguien):
+        alguien.irSur()
+    
+    def setEMinOr(self, em, unContenedor):
+        unContenedor.sur = em
+    
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.sur.recorrer(unBloque)
 
-  def establecer_elemento_y_orientacion(self, em, aContainer):
-    pass
+class Este(Orientacion):
+    _instancia = None
 
-class Norte(Orientación):
-  _instance = None
-  def __init__(self):
-    if not Norte._instance:
-      super().__init__()
-      Norte._instance = self
+    def __init__(self):
+        raise RuntimeError('Call instance() instead')
+        #if not Este._instancia:
+        #    super().__init__()
+        #   Este._instancia = self
 
-  def setEMinOr(self, em, aContainer):
-    aContainer.norte = em
+    @classmethod
+    def obtener_instancia(cls):
+        if cls._instancia is None:
+            print('Creando nueva instancia')
+            cls._instancia = cls.__new__(cls)
+        return cls._instancia
+    
+    def caminarAleatorio(self, alguien):
+        alguien.irEste()
+    
+    def setEMinOr(self, em, unContenedor):
+        unContenedor.este = em
 
-  @classmethod
-  def get_instance(cls):
-    if not cls._instance:
-      cls._instance = Norte()
-    return cls._instance
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.este.recorrer(unBloque)
+        
+class Oeste(Orientacion):
+    _instancia = None
 
-  def print(self):
-    print("Norte")
+    def __init__(self):
+        if not Oeste._instancia:
+            super().__init__()
+            Oeste._instancia = self
 
-  def caminar_aleatorio(self, someone):
-    someone.goNorth()
+    @staticmethod
+    def obtener_instancia():
+        if not Oeste._instancia:
+            Oeste()
+        return Oeste._instancia
+    
+    def imprimir(self):
+        print("Oeste")
+    
+    def caminarAleatorio(self, alguien):
+        alguien.irOeste()
 
-class Sur(Orientación):
-  _instance = None
-  def __init__(self):
-    if not Sur._instance:
-      super().__init__()
-      Sur._instance = self
+    def setEMinOr(self, em, unContenedor):
+        unContenedor.oeste = em
 
-  @staticmethod
-  def get_instance():
-    if not Sur._instance:
-      Sur()
-    return Sur._instance
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.oeste.recorrer(unBloque)
 
-  def print(self):
-    print("Sur")
+class Noreste(Orientacion):
+    _instancia = None
+    
+    def __init__(self):
+        if not Noreste._instancia:
+            super().__init__()
+            Noreste._instancia = self
 
-  def caminar_aleatorio(self, someone):
-    someone.goSouth()
+    @staticmethod
+    def obtener_instancia():
+        if not Noreste._instancia:
+            Noreste()
+        return Noreste._instancia
 
-  def setEMinOr(self, em, aContainer):
-    aContainer.sur = em
+    def imprimir(self):
+        print("Noreste")
 
-class Este(Orientación):
-  _instance = None
-  def __init__(self):
-    raise RuntimeError('Call instance() instead')
+    def caminarAleatoriamente(self, alguien):
+        alguien.irNoreste()
 
-  @classmethod
-  def get_instance(cls):
-    if cls._instance is None:
-      print('Creating new instance')
-      cls._instance = cls.__new__(cls)
-    return cls._instance
+    def establecerEntidadMinOr(self, em, unContenedor):
+        unContenedor.noreste = em
 
-  def caminar_aleatorio(self, someone):
-    someone.goEast()
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.noreste.recorrer(unBloque)
+        
+class Noroeste(Orientacion):
+    _instancia = None
+    
+    def __init__(self):
+        if not Noroeste._instancia:
+            super().__init__()
+            Noroeste._instancia = self
 
-  def setEMinOr(self, em, aContainer):
-    aContainer.este = em
+    @staticmethod
+    def obtener_instancia():
+        if not Noroeste._instancia:
+            Noroeste()
+        return Noroeste._instancia
 
-class Oeste(Orientación):
-  _instance = None
-  def __init__(self):
-    if not Oeste._instance:
-      super().__init__()
-      Oeste._instance = self
+    def imprimir(self):
+        print("Noroeste")
 
-  @staticmethod
-  def get_instance():
-    if not Oeste._instance:
-      Oeste()
-    return Oeste._instance
+    def caminarAleatoriamente(self, alguien):
+        alguien.irNoroeste()
 
-  def print(self):
-    print("Oeste")
+    def establecerEntidadMinOr(self, em, unContenedor):
+        unContenedor.noroeste = em
 
-  def caminar_aleatorio(self, someone):
-    someone.goWest()
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.noroeste.recorrer(unBloque)
+        
+class Sureste(Orientacion):
+    _instancia = None
+    
+    def __init__(self):
+        if not Sureste._instancia:
+            super().__init__()
+            Sureste._instancia = self
 
-  def setEMinOr(self, em, aContainer):
-    aContainer.oeste = em
+    @staticmethod
+    def obtener_instancia():
+        if not Sureste._instancia:
+            Sureste()
+        return Sureste._instancia
+
+    def imprimir(self):
+        print("Sureste")
+
+    def caminarAleatoriamente(self, alguien):
+        alguien.irSureste()
+
+    def establecerEntidadMinOr(self, em, unContenedor):
+        unContenedor.sureste = em
+
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.sureste.recorrer(unBloque)
+        
+class Suroeste(Orientacion):
+    _instancia = None
+    
+    def __init__(self):
+        if not Suroeste._instancia:
+            super().__init__()
+            Suroeste._instancia = self
+
+    @staticmethod
+    def obtener_instancia():
+        if not Suroeste._instancia:
+            Suroeste()
+        return Suroeste._instancia
+
+    def imprimir(self):
+        print("Suroeste")
+
+    def caminarAleatoriamente(self, alguien):
+        alguien.irSuroeste()
+
+    def establecerEntidadMinOr(self, em, unContenedor):
+        unContenedor.suroeste = em
+
+    def recorrerEn(self, unBloque, unContenedor):
+        unContenedor.suroeste.recorrer(unBloque)
+
+
+class Forma:
+    def __init__(self):
+        self.orientaciones = []
+
+    def agregarOrientacion(self, orientacion):
+        self.orientaciones.append(orientacion)   
+
+    def removerOrientacion(self, orientacion):
+        self.orientaciones.remove(orientacion)
+
+    def getOrientacionAleatoria(self):
+        return random.choice(self.orientaciones)
+
+    def setEMinOr(self, em, orientacion):
+        orientacion.setEMinOr(em, self)
+
+    def recorrer(self,unBloque):
+        for orientacion in self.orientaciones:
+            orientacion.recorrerEn(unBloque,self)
+
+class Rectangulo(Forma):
+    def __init__(self):
+        super().__init__()
+        self.norte = None
+        self.sur = None
+        self.este = None
+        self.oeste = None
+        self.agregarTodasLasOrientaciones()
+
+    def agregarTodasLasOrientaciones(self):
+        self.agregarOrientación(Norte.obtener_instancia())
+        self.agregarOrientación(Sur.obtener_instancia())
+        self.agregarOrientación(Este.obtener_instancia())
+        self.agregarOrientación(Oeste.obtener_instancia())
+
+    def irNorte(self, alguien):
+        self.norte.entrar(alguien)
+
+    def irEste(self, alguien):
+        self.este.entrar(alguien)
+
+    def irSur(self, alguien):
+        self.sur.entrar(alguien)
+
+    def irOeste(self, alguien):
+        self.oeste.entrar(alguien)
+
+class Hexagono(Forma):
+    def __init__(self):
+        super().__init__()
+        self.norte = None
+        self.noreste = None
+        self.sureste = None
+        self.sur = None
+        self.suroeste = None
+        self.noroeste = None
+        self.agregarTodasLasOrientaciones()
+
+    def agregarTodasLasOrientaciones(self):
+        self.agregarOrientación(Norte.obtener_instancia())
+        self.agregarOrientación(Noreste.obtener_instancia())
+        self.agregarOrientación(Sureste.obtener_instancia())
+        self.agregarOrientación(Sur.obtener_instancia())
+        self.agregarOrientación(Suroeste.obtener_instancia())
+        self.agregarOrientación(Noroeste.obtener_instancia())
+
+    def irNorte(self, alguien):
+        self.norte.entrar(alguien)
+
+    def irNoreste(self, alguien):
+        self.noreste.entrar(alguien)
+
+    def irSureste(self, alguien):
+        self.sureste.entrar(alguien)
+
+    def irSur(self, alguien):
+        self.sur.entrar(alguien)
+
+    def irSuroeste(self, alguien):
+        self.suroeste.entrar(alguien)
+
+    def irNoroeste(self, alguien):
+        self.noroeste.entrar(alguien)
 
