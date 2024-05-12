@@ -86,7 +86,9 @@ class LaberintoBuilder:
 
     def makeGame(self):
         self.game = Juego()
-        self.game.laberinto = self.laberinto
+        self.game.prototipo = self.laberinto
+        self.game.laberinto = self.game.clonarLaberinto()
+        
 
     def makeForm(self):
         return Rectangulo()
@@ -181,7 +183,7 @@ def main(): #stdscr
 
     director=Director()
     
-    director.procesar('xxxxxxxxxxxxxxxxxxxxxxx\\laberintos\\laberinto2habitacion.json')
+    director.procesar('C:\\Users\\yorch\\laberintos\\laberinto2habitacion.json')
 
     game=director.getGame()
     game.addPerson("Juan")
@@ -218,4 +220,4 @@ def main(): #stdscr
     #curses.curs_set(1)
     #stdscr.keypad(False)
     
-main()
+#main()

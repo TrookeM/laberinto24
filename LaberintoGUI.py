@@ -1,54 +1,160 @@
 import tkinter as tk
+#import keyboard
+from Builder import Director
+from Laberinto import Point
 
 class RectApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        
-        self.title("Dibujar Rectángulos")
-        self.geometry("400x150")
-        
+        self.game = None
+        self.person = None
+
+        director = Director()
+        director.procesar('C:\\Users\\yorch\\laberintos\\maze2room.json')
+        self.game = director.getGame()
+
+        self.title("Laberinto rectangular")
+        self.geometry("1150x900")
         self.menubar = tk.Menu(self)
         
         self.filemenu = tk.Menu(self.menubar, tearoff=0)
         self.filemenu.add_command(label="Salir", command=self.quit)
         
         self.drawmenu = tk.Menu(self.menubar, tearoff=0)
-        self.drawmenu.add_command(label="Dibujar Rectángulo", command=self.draw_rect)
+        self.drawmenu.add_command(label="Lanzar bichos", command=self.game.launchThreds)
+        self.drawmenu.add_command(label="Parar bichos", command=self.game.stopThreds)
         
         self.menubar.add_cascade(label="Archivo", menu=self.filemenu)  
-        self.menubar.add_cascade(label="Dibujar", menu=self.drawmenu)
+        self.menubar.add_cascade(label="Bichos", menu=self.drawmenu)
         
         self.config(menu=self.menubar)
+
+        self.toolbar = tk.Frame(self)
+        self.b1 = tk.Button(self.toolbar, text="Lanzar bichos", command=self.button1_click)
+        self.b2 = tk.Button(self.toolbar, text="Parar bichos", command=self.button2_click)
+        self.b3 = tk.Button(self.toolbar, text="Abrir puertas", command=self.button3_click)
+        self.b4 = tk.Button(self.toolbar, text="Cerrar puertas", command=self.button4_click)
         
-        self.canvas = tk.Canvas(self, width=300, height=300, bg="white")
-        self.canvas.pack(expand=True, padx=10, pady=10)
+        self.b1.pack(side=tk.LEFT)
+        self.b2.pack(side=tk.LEFT) 
+        self.b3.pack(side=tk.LEFT)
+        self.b4.pack(side=tk.LEFT)
+        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+       
+        self.game.addPerson("Pepe")
+        self.person = self.game.person
         
-        self.label_width = tk.Label(self, text="Ancho:")
-        self.label_width.pack(side=tk.LEFT, padx=(10, 5))
-        
-        self.entry_width = tk.Entry(self)
-        self.entry_width.pack(side=tk.LEFT)
-        
-        self.label_height = tk.Label(self, text="Alto:")
-        self.label_height.pack(side=tk.LEFT, padx=(10, 5))
-        
-        self.entry_height = tk.Entry(self)
-        self.entry_height.pack(side=tk.LEFT)
-        
-        self.button_draw = tk.Button(self, text="Dibujar", command=self.draw_rect)
-        self.button_draw.pack(side=tk.LEFT, padx=(10, 0))
-        
-    def draw_rect(self):
-        width = int(self.entry_width.get())
-        height = int(self.entry_height.get())
-        
-        x1 = 10
-        y1 = 10
+        self.canvas = tk.Canvas(self, width=1100, height=650, bg="white")
+        self.canvas.pack(expand=True)
+        self.mostrarLaberinto()
+        self.agregarPersonaje('Pepe')
+        self.dibujarLaberinto()
+
+    def mostrarLaberinto(self):
+        self.calcularPosicion()
+        self.normalizar()
+        self.calcularDimensiones()
+        self.asignarPuntosReales()
+    
+    def calcularPosicion(self):
+        if not(self.game):
+            return
+        h1 = self.game.getRoom(1)
+        h1.setPoint(Point(0,0))
+        h1.calcularPosicion()
+
+    def normalizar(self):
+        minX = 0
+        minY = 0
+        for h in self.game.maze.children:
+            if h.getPoint().x < minX:
+                minX = h.getPoint().x
+            if h.getPoint().y < minY:
+                minY = h.getPoint().y
+        for h in self.game.maze.children:
+            point = h.getPoint()
+            h.setPoint(Point(point.x + abs(minX), point.y + abs(minY)))
+
+    def calcularDimensiones(self):
+        maxX = 0
+        maxY = 0
+        for h in self.game.maze.children:
+            if h.getPoint().x > maxX:
+                maxX = h.getPoint().x
+            if h.getPoint().y > maxY:
+                maxY = h.getPoint().y
+        maxX += 1
+        maxY += 1
+        self.ancho = (1050 / maxX)
+        self.alto = (600 / maxY)
+
+    def asignarPuntosReales(self):
+        origen = Point(10,10)
+        for h in self.game.maze.children:
+            x = origen.x + h.getPoint().x * self.ancho
+            y = origen.y + h.getPoint().y * self.alto
+            h.setPoint(Point(x,y))
+            h.setExtent(Point(self.ancho, self.alto))           
+    
+    def agregarPersonaje(self, name):
+        self.game.addPerson(name)
+        self.person = self.game.person
+
+    def dibujarLaberinto(self):
+        if not(self.game):
+            return
+        self.game.maze.accept(self)
+
+    def draw_rect(self, x1, y1, width, height):       
         x2 = x1 + width
         y2 = y1 + height
         
-        self.canvas.create_rectangle(x1, y1, x2, y2, fill="red")
+        self.canvas.create_rectangle(x1, y1, x2, y2, fill="white")
+    
+    def visitRoom(self, room):
+        self.draw_rect(room.getPoint().x, room.getPoint().y, room.getExtent().x, room.getExtent().y)
+        
+    def button1_click(self):
+        self.game.launchThreds()
+
+    def button2_click(self):
+        self.game.stopThreds()
+
+    def button3_click(self):
+        self.game.openDoors()
+
+    def button4_click(self):
+        self.game.closeDoors()
+
+    def animate_sprite(self):
+        # Código para animar un sprite en el canvas
+        pass
+
+    def keypress(self, event):
+        """Recibe una tecla presionada y mueve el personaje una cantidad específica"""
+        print(event)
+        if event.char == 'w':
+            app.person.goNorth()
+            #ball.move(0,-5)
+        elif event.char == 's':
+            app.person.goSouth()
+            #ball.move(0,5)
+        elif event.char == 'a':
+            app.person.goWest()
+            #ball.move(-5,0)
+        elif event.char == 'd':
+            app.person.goEast()
+            #ball.move(5,0)
+        elif event.char == 'enter':
+            app.person.attack()
+        else:
+            pass
         
 if __name__ == "__main__":
     app = RectApp()
+    app.bind('w', app.keypress)
+    app.bind('s', app.keypress)
+    app.bind('d', app.keypress)
+    app.bind('a', app.keypress)
+    app.bind('enter', app.keypress)
     app.mainloop()

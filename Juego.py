@@ -11,6 +11,9 @@ class Juego:
         self.persona = None
         self.prototipo = None
         self.gestorDeHilos = ThreadManager()
+    
+    def obtenerHabitacion(self, id):
+        return self.laberinto.obtenerHabitacion(id)
 
     def iniciarHilos(self):
         print("Las bestias comienzan a moverse...")
