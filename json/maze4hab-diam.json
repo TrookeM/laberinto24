@@ -1,0 +1,80 @@
+{
+    "forma": "rombo",
+    "laberinto": [
+        {
+            "tipo": "habitacion",
+            "num": 1,
+            "hijos": [
+                {
+                    "tipo": "armario",
+                    "num": 1,
+                    "hijos": [
+                        {
+                            "tipo": "pan",
+                            "num": 1
+                        },
+                        {
+                            "tipo": "pan",
+                            "num": 2
+                        },
+                        {
+                            "tipo": "pocion",
+                            "num": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tipo": "habitacion",
+            "num": 2,
+            "hijos": [
+                {
+                    "tipo": "batepinchos",
+                    "num": 1
+                },
+                {
+                    "tipo": "armario",
+                    "num": 2,
+                    "hijos": [
+                        {
+                            "tipo": "pocion",
+                            "num": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tipo": "habitacion",
+            "num": 3,
+            "hijos": [
+                {
+                    "tipo": "bomba",
+                    "num": 1
+                }
+            ]
+        },
+        {
+            "tipo": "habitacion",
+            "num": 4,
+            "hijos": []
+        }
+    ],
+    "puertas": [
+        [1, "Sureste", 2, "Noroeste"],
+        [4, "Noroeste", 3, "Sureste"],
+        [3, "Suroeste", 1, "Noreste"],
+        [2, "Noreste", 4, "Suroeste"]
+    ],
+    "bichos": [
+        {
+            "modo": "agresivo",
+            "posicion": 1
+        },
+        {
+            "modo": "perezoso",
+            "posicion": 4
+        }
+    ]
+}

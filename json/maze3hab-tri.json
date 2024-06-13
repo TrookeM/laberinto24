@@ -1,0 +1,89 @@
+{
+    "forma": "triangulo",
+    "laberinto": [
+        {
+            "tipo": "habitacion",
+            "num": 1,
+            "hijos": [
+                {
+                    "tipo": "armario",
+                    "num": 1,
+                    "hijos": [
+                        {
+                            "tipo": "pan",
+                            "num": 1
+                        }
+                    ]
+                },
+                {
+                    "tipo": "bomba",
+                    "num": 1
+                },
+                {
+                    "tipo": "fuego",
+                    "num": 1
+                }
+            ]
+        },
+        {
+            "tipo": "habitacion",
+            "num": 2,
+            "hijos": [
+                {
+                    "tipo": "batepinchos",
+                    "num": 1
+                },
+                {
+                    "tipo": "fuego",
+                    "num": 1
+                }
+            ]
+        },
+        {
+            "tipo": "habitacion",
+            "num": 3,
+            "hijos": [
+                {
+                    "tipo": "batepinchos",
+                    "num": 1
+                },
+                {
+                    "tipo": "armario",
+                    "num": 3,
+                    "hijos": [
+                        {
+                            "tipo": "pocion",
+                            "num": 1
+                        },
+                        {
+                            "tipo": "pocion",
+                            "num": 2
+                        }
+                    ]
+                },
+                {
+                    "tipo": "tunel"
+                }
+            ]
+        }
+    ],
+    "puertas": [
+        [1, "Norte", 2, "Este"],
+        [2, "Oeste", 3, "Norte"],
+        [3, "Este", 1, "Oeste"]
+    ],
+    "bichos": [
+        {
+            "modo": "agresivo",
+            "posicion": 1
+        },
+        {
+            "modo": "perezoso",
+            "posicion": 2
+        },
+        {
+            "modo": "agresivo",
+            "posicion": 3
+        }
+    ]
+}
