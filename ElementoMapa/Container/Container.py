@@ -35,15 +35,15 @@ class Container (ElementoMapa):
     def setExtent(self, alc):
         self.form.alcance = alc
 
-    def obtenerComandos(self, obj):
+    def obtenerComandos(self, ente):
         
         juegoCommands=[]
         juegoCommands.extend(self.commands)
 
         for hijo in self.objChildren:
-            juegoCommands.extend(hijo.obtenerComandos(obj))
+            juegoCommands.extend(hijo.obtenerComandos(ente))
 
-        juegoCommands.extend(self.form.getCommands(obj))
+        juegoCommands.extend(self.form.getCommands(ente))
         
         return juegoCommands
 

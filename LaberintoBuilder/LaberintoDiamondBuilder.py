@@ -13,16 +13,16 @@ class LaberintoDiamondBuilder(LaberintoBuilder):
         return Diamond()
     
     def fabricarNoreste(self):
-        return Noreste.obtenerInstancia()
+        return Noreste.obtenerInstancia(self)
     
     def fabricarNoroeste(self):
-        return Noroeste.obtenerInstancia()
+        return Noroeste.obtenerInstancia(self)
     
     def fabricarSureste(self):
-        return Sureste.obtenerInstancia()
+        return Sureste.obtenerInstancia(self)
     
     def fabricarSuroeste(self):
-        return Suroeste.obtenerInstancia()
+        return Suroeste.obtenerInstancia(self)
     
     def fabricarHabitacion(self,num):
         hab = Habitacion(num)

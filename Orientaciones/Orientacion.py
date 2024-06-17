@@ -23,7 +23,7 @@ class Orientacion(ABC):
         pass
 
     @abstractmethod
-    def moverA(ente):
+    def moverA(self, ente):
         pass
     
     @abstractmethod

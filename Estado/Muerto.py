@@ -3,10 +3,10 @@ import sys
 sys.setrecursionlimit(150000)
 class Muerto(Estado):
     
-    def actua(unBicho):
+    def actua(self, unBicho):
         print(str(unBicho),' no puedes atacar a un muerto.')
 
-    def enteEsAtacadoPor(self,atacado,atacante):
+    def enteEsAtacadoPor(self,atacado, atacante):
         print(str(atacante), " no puede atacar a ningún enemigo porque está muerto.")
 
     def estaVivo(self):

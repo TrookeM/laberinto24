@@ -1,30 +1,26 @@
-import os
-import sys
-
-from ElementoMapa.Container.Laberinto import Laberinto
-from ElementoMapa.Puerta import Puerta
+from Artefacto.BatePinchos import BatePinchos
+from Artefacto.Pan import Pan
+from Artefacto.Pocion import Pocion
+from Command.Abrir import Abrir
+from Command.Coger import Coger
+from ElementoMapa.Container.Armario import Armario
 from ElementoMapa.Container.Habitacion import Habitacion
-from ElementoMapa.Pared import Pared
-from Orientaciones.Norte import Norte
-from Orientaciones.Este import Este
-from Orientaciones.Oeste import Oeste
-from Orientaciones.Sur import Sur
+from ElementoMapa.Container.Laberinto import Laberinto
 from ElementoMapa.Leaf.Decorator.Bomba import Bomba
 from ElementoMapa.Leaf.Decorator.Fuego import Fuego
-from Artefactos.BatePinchos import BatePinchos
-from Artefactos.Mochila import Mochila
-
+from ElementoMapa.Leaf.Tunel import Tunel
+from ElementoMapa.Pared import Pared
+from ElementoMapa.Puerta import Puerta
 from Ente.Bicho import Bicho
+from Forma.Square import Square
+from Juego.Juego import Juego
 from Modo.Agresivo import Agresivo
 from Modo.Perezoso import Perezoso
-from Juego.Juego import Juego
-from ElementoMapa.Container.Armario import Armario
-from Forma.Square import Square
-from ElementoMapa.Leaf.Tunel import Tunel
-from Command.Abrir import Abrir
-from Artefactos.Pan import Pan
-from Artefactos.Pocion import Pocion
-from Command.Coger import Coger
+from Orientaciones.Este import Este
+from Orientaciones.Norte import Norte
+from Orientaciones.Oeste import Oeste
+from Orientaciones.Sur import Sur
+
 
 class LaberintoBuilder():
     
@@ -230,16 +226,16 @@ class LaberintoBuilder():
         return Pared()
 
     def fabricarNorte(self):
-        return Norte.obtenerInstancia()
+        return Norte.obtenerInstancia(self)
     
     def fabricarEste(self):
-        return Este.obtenerInstancia()
+        return Este.obtenerInstancia(self)
     
     def fabricarOeste(self):
-        return Oeste.obtenerInstancia()
+        return Oeste.obtenerInstancia(self)
     
     def fabricarSur(self):
-        return Sur.obtenerInstancia()
+        return Sur.obtenerInstancia(self)
     
     def fabricarBomba(self):
         return Bomba()

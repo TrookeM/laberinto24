@@ -3,7 +3,7 @@ import sys
 sys.setrecursionlimit(150000)
 class Estado(ABC):
     
-    def actua(unBicho):
+    def actua(self, unBicho):
         pass
     
     def esAtacadoPor(self,atacado,atacante):

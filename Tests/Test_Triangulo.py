@@ -2,19 +2,24 @@ import unittest
 import sys
 from io import StringIO
 import os
-sys.path.append('C:\\Users\\yorch\\Desktop\\PLaberinto\\laberinto24\\json')
+from pathlib import Path
+
 
 from LaberintoBuilder.Director import Director
 from Ente.Character import Character
 
-class Third_test(unittest.TestCase):
+class Test_Triangulo(unittest.TestCase):
 
     def setUp(self):
         super().setUp()
         sys.stdout_save = sys.stdout
         sys.stdout = StringIO()  # Deshabilitamos la salida para facilitar la lectura de los test
+        json_file = Path('json') / 'maze3hab-tri.json'
+        if not json_file.exists():
+            raise FileNotFoundError(f"El archivo {json_file} no se encuentra.")
+        
         director = Director()
-        director.procesar('maze3hab-tri.json')
+        director.procesar(str(json_file))
         self.juego = director.getJuego()
         personaje = Character()
         personaje.seudonimo = "Juan"

@@ -14,7 +14,7 @@ class Cuerpo():
         for obs in self.bodyObservers:
             obs.visualCuerpo()
 
-    def obtenerComandos(self,ente):
+    def obtenerComandos(self, ente):
         comandos = []
         if self.brazoAtaque is not None:
             comandos.extend(self.brazoAtaque.obtenerComandos(ente))

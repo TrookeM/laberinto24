@@ -2,8 +2,7 @@ from Estado.Estado import Estado
 import sys
 sys.setrecursionlimit(150000)
 class Vivo(Estado):
-    __instancia = None
-
+    
     def actua(self,unBicho):
         unBicho.puedeActuar()
 

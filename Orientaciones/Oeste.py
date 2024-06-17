@@ -7,7 +7,7 @@ class Oeste(Orientacion):
         if Oeste.__instance is None:
             Oeste.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Oeste.__instance is None:
             Oeste.__instance = Oeste()
         
@@ -21,7 +21,7 @@ class Oeste(Orientacion):
         forma.oeste.calcularPosicionDesde(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("Has puesto un pie en la Vía de la Plata.")
+        print("Oeste.")
         forma.oeste.aceptar(visitor)
     
     def putElementOn(self,em,cont):

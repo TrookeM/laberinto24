@@ -41,15 +41,15 @@ while not juego.fase.esFinal():
     if forma == "Cuadrado":
         print("\n¿Qué deseas hacer?\n    A. Atacar\n    1. Mover al norte\n    2. Mover al este\n    3. Mover al oeste\n    4. Mover al sur\n",
               "   5. Abrir Puertas\n    6. Lanzar bichos\n    7. Mostrar comandos bolsa\n    8. Mostrar comandos cuerpo\n",   
-              "   H. Obtener hijos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
+              "   H. Obtener objetos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
     elif forma == "Diamante":
         print("\n¿Qué deseas hacer?\n    A. Atacar\n    1. Mover al noreste\n    2. Mover al noroeste\n    3. Mover al sureste\n    4. Mover al suroeste\n",
               "   5. Abrir Puertas\n    6. Lanzar bichos\n    7. Mostrar comandos bolsa\n    8. Mostrar comandos cuerpo\n",
-              "   H. Obtener hijos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
+              "   H. Obtener objetos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
     elif forma == "Triangulo":
         print("\n¿Qué deseas hacer?\n    A. Atacar\n    1. Mover al norte\n    2. Mover al este\n    3. Mover al oeste\n",
               "   4. Abrir Puertas\n    5. Lanzar bichos\n    6. Mostrar comandos bolsa\n    7. Mostrar comandos cuerpo\n",
-              "   H. Obtener hijos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
+              "   H. Obtener objetos de la posición del personaje\n    C. Obtener Comandos\n    I. Mostrar inventario")
 
     sys.stdin.flush()
     eleccion = input("Ingresa tu elección: ")
@@ -79,83 +79,111 @@ while not juego.fase.esFinal():
             personaje.irAlOeste()
 
     elif eleccion == "4":
-        juego.openDoors()
+        if forma == "Cuadrado":
+            personaje.irAlSur()
+        elif forma == "Diamante":
+            personaje.irAlSuroeste()
+        else:
+            juego.openDoors() # Si es triangulo la opcion es abrir puertas
 
     elif eleccion == "5":
-        juego.fabricarBichoAgresivo(2)
+        if forma == "Triangulo":
+            juego.fabricarBichoAgresivo(2)
+        else:
+            juego.openDoors()
 
     elif eleccion == "6":
-        coms = personaje.mochila.obtenerComandos(personaje)
-        if len(coms) > 0:
-            print("Comandos disponibles:")
-            for idx, com in enumerate(coms):
-                print(f"    {idx}. {com}")
-            el = input("Selecciona un comando (número): ")
-            while not el.isdigit() or int(el) < 0 or int(el) >= len(coms):
-                print("Selección inválida. Introduce un número válido correspondiente al comando.")
+        if forma == "Triangulo":
+            coms = personaje.mochila.obtenerComandos(personaje)
+            if len(coms) > 0:
+                print("Comandos disponibles:")
+                for idx, com in enumerate(coms):
+                    print(f"    {idx}. {com}")
                 el = input("Selecciona un comando (número): ")
-            coms[int(el)].ejecutar(personaje)
+                while not el.isdigit() or int(el) < 0 or int(el) >= len(coms):
+                    print("Selección inválida. Introduce un número válido correspondiente al comando.")
+                    el = input("Selecciona un comando (número): ")
+                coms[int(el)].ejecutar(personaje)
+            else:
+                print("No hay objetos en la bolsa.")
         else:
-            print("No hay objetos en la bolsa.")
+            juego.fabricarBichoAgresivo(2)
 
     elif eleccion == "7":
-        print("¿De verdad quieres usar el brazo ataque?")
-        respuesta = input("1. Sí\nCualquier otra tecla para cancelar: ")
-        if respuesta == "1":
-            if personaje.cuerpo.brazoAtaque is not None:
-                coms = personaje.cuerpo.brazoAtaque.commmands
-                if len(coms) > 0:
-                    print("Comandos disponibles:")
-                    for idx, com in enumerate(coms):
-                        print(f"    {idx}. {com}")
-                    el = input("Selecciona un comando (número): ")
-                    while not el.isdigit() or int(el) < 0 or int(el) >= len(coms):
-                        print("Selección inválida. Introduce un número válido correspondiente al comando.")
+        if forma == "Triangulo":
+            print("¿De verdad quieres usar el brazo ataque?")
+            respuesta = input("1. Sí\nCualquier otra tecla para cancelar: ")
+            if respuesta == "1":
+                if personaje.cuerpo.brazoAtaque is not None:
+                    coms = personaje.cuerpo.brazoAtaque.commmands
+                    if len(coms) > 0:
+                        print("Comandos disponibles:")
+                        for idx, com in enumerate(coms):
+                            print(f"    {idx}. {com}")
                         el = input("Selecciona un comando (número): ")
-                    coms[int(el)].ejecutar(personaje)
+                        while not el.isdigit() or int(el) < 0 or int(el) >= len(coms):
+                            print("Selección inválida. Introduce un número válido correspondiente al comando.")
+                            el = input("Selecciona un comando (número): ")
+                        coms[int(el)].ejecutar(personaje)
+                    else:
+                        print("No hay comandos disponibles para el brazo de ataque.")
                 else:
-                    print("No hay comandos disponibles para el brazo de ataque.")
+                    print("No hay nada en la mano derecha.")
+        else:
+            coms = personaje.mochila.obtenerComandos(personaje)
+            if len(coms) > 0:
+                print("Comandos disponibles:")
+                for idx, com in enumerate(coms):
+                    print(f"    {idx}. {com}")
+                el = input("Selecciona un comando (número): ")
+                while not el.isdigit() or int(el) < 0 or int(el) >= len(coms):
+                    print("Selección inválida. Introduce un número válido correspondiente al comando.")
+                    el = input("Selecciona un comando (número): ")
+                coms[int(el)].ejecutar(personaje)
             else:
-                print("No hay nada en la mano derecha.")
+                print("No hay objetos en la bolsa.")
 
     elif eleccion.lower() == "a":
         personaje.atacar()
 
     elif eleccion.lower() == "i":
         print("Inventario:")
-        for idx, obj in enumerate(personaje.mochila.children):
-            print(f"    {idx}. {obj}")
-        el = input("Selecciona un objeto (número): ")
-        while not el.isdigit() or int(el) < 0 or int(el) >= len(personaje.mochila.children):
-            print("Selección inválida. Introduce un número válido correspondiente al objeto.")
+        if len(personaje.mochila.children) > 0:
+            for idx, obj in enumerate(personaje.mochila.children):
+                print(f"    {idx}. {obj}")
             el = input("Selecciona un objeto (número): ")
-
-        coms = personaje.mochila.children[int(el)].obtenerComandos(personaje)
-        if len(coms) > 0:
-            print("Comandos disponibles:")
-            for idx, com in enumerate(coms):
-                print(f"    {idx}. {com}")
-            ele = input("Selecciona un comando (número): ")
-            while not ele.isdigit() or int(ele) < 0 or int(ele) >= len(coms):
-                print("Selección inválida. Introduce un número válido correspondiente al comando.")
+            while not el.isdigit() or int(el) < 0 or int(el) >= len(personaje.mochila.children):
+                print("Selección inválida. Introduce un número válido correspondiente al objeto.")
+                el = input("Selecciona un objeto (número): ")
+            
+            coms = personaje.mochila.children[int(el)].obtenerComandos(personaje)
+            if len(coms) > 0:
+                print("Comandos disponibles:")
+                for idx, com in enumerate(coms):
+                    print(f"    {idx}. {com}")
                 ele = input("Selecciona un comando (número): ")
-            coms[int(ele)].ejecutar(personaje)
+                while not ele.isdigit() or int(ele) < 0 or int(ele) >= len(coms):
+                    print("Selección inválida. Introduce un número válido correspondiente al comando.")
+                    ele = input("Selecciona un comando (número): ")
+                coms[int(ele)].ejecutar(personaje)
+            else:
+                print("No hay comandos disponibles para este objeto.")
         else:
-            print("No hay comandos disponibles para este objeto.")
+            print("No hay objetos en la mochila.")
 
     elif eleccion.lower() == "h":
         hijos = juego.getChildrenPosition()
         if len(hijos) > 0:
-            print("Hijos disponibles:")
+            print("Objetos disponibles:")
             for idx, hijo in enumerate(hijos):
                 print(f"    {idx}. {hijo}")
-            el = input("Selecciona un hijo (número): ")
+            el = input("Selecciona un objeto (número): ")
             while not el.isdigit() or int(el) < 0 or int(el) >= len(hijos):
-                print("Selección inválida. Introduce un número válido correspondiente al hijo.")
-                el = input("Selecciona un hijo (número): ")
+                print("Selección inválida. Introduce un número válido correspondiente al objeto.")
+                el = input("Selecciona un objeto (número): ")
             hijos[int(el)].entrar(personaje)
         else:
-            print("No hay hijos disponibles.")
+            print("No hay objetos en la sala.")
 
     elif eleccion.lower() == "c":
         coms = personaje.obtenerComandos(personaje)

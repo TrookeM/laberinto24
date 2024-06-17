@@ -8,13 +8,13 @@ from Orientaciones.Oeste import Oeste
 from Orientaciones.Sur import Sur
 from ElementoMapa.Leaf.Decorator.Bomba import Bomba
 from ElementoMapa.Leaf.Decorator.Fuego import Fuego
-from Artefactos.BatePinchos import BatePinchos
+from Artefacto.BatePinchos import BatePinchos
 from Ente.Bicho import Bicho
 from Modo.Agresivo import Agresivo
 from Modo.Perezoso import Perezoso
 from Fase.Comienzo import Comienzo
 from Fase.Final import Final
-from Artefactos.Mochila import Mochila
+from Artefacto.Mochila import Mochila
 import threading
 import copy
 
@@ -75,7 +75,7 @@ class Juego():
         
     def muereBicho(self):
         if self.verificarBichos() and self.hasGanado:
-            print(f"{str(self.prota)} ha derrotado a todos los bichos. ¡VICTORIA!")
+            print(f"{str(self.prota)} ha derrotado a todos los bichos. ¡OLE!")
             self.fase = Final()
 
 
@@ -207,16 +207,16 @@ class Juego():
         return Pared()
 
     def fabricarNorte(self):
-        return Norte.obtenerInstancia()
+        return Norte.obtenerInstancia(self)
     
     def fabricarEste(self):
-        return Este.obtenerInstancia()
+        return Este.obtenerInstancia(self)
     
     def fabricarOeste(self):
-        return Oeste.obtenerInstancia()
+        return Oeste.obtenerInstancia(self)
     
     def fabricarSur(self):
-        return Sur.obtenerInstancia()
+        return Sur.obtenerInstancia(self)
     
     def fabricarBomba(self):
         return Bomba()
@@ -230,10 +230,6 @@ class Juego():
     
     def esJuego(self):
         return True
-    
-    def mostrarMapa(self):
-        mapa = self.laberinto.obtenerMapa()
-        print(mapa)
 
     def labAbstractFactory(self, obj):
         self.laberinto = self.fabricarLaberinto()
@@ -325,17 +321,17 @@ class Juego():
 
         # arma = self.fabricarBatePinchos()
 
-        hab1.ponerElementoEn(self.fabricarEste(),p1)
-        hab1.ponerElementoEn(self.fabricarSur(),p4)
+        hab1.putElementOn(self.fabricarEste(),p1)
+        hab1.putElementOn(self.fabricarSur(),p4)
 
-        hab2.ponerElementoEn(self.fabricarOeste(),p1)
-        hab2.ponerElementoEn(self.fabricarSur(),p2)
+        hab2.putElementOn(self.fabricarOeste(),p1)
+        hab2.putElementOn(self.fabricarSur(),p2)
 
-        hab3.ponerElementoEn(self.fabricarNorte(),p4)
-        hab3.ponerElementoEn(self.fabricarEste(), bomba)
+        hab3.putElementOn(self.fabricarNorte(),p4)
+        hab3.putElementOn(self.fabricarEste(), bomba)
 
-        hab4.ponerElementoEn(self.fabricarNorte(), p2)
-        hab4.ponerElementoEn(self.fabricarOeste(), otraBomba)
+        hab4.putElementOn(self.fabricarNorte(), p2)
+        hab4.putElementOn(self.fabricarOeste(), otraBomba)
 
         self.laberinto.agregarHabitacion(hab1)
         self.laberinto.agregarHabitacion(hab2)

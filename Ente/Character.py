@@ -1,6 +1,5 @@
 from Ente.Ente import Ente
 from Cuerpo.Cuerpo import Cuerpo
-from Artefactos.Mochila import Mochila
 class Character(Ente):
     
     def __init__(self):
@@ -10,7 +9,7 @@ class Character(Ente):
         self.cuerpo=Cuerpo()
 
     def obtenerComandosCuerpo(self):
-        return self.cuerpo.obtenerComandos()
+        return self.cuerpo.obtenerComandos(self)
     
     def obtenerBatePinchos(self):
         return self.cuerpo.obtenerArma()
@@ -35,7 +34,7 @@ class Character(Ente):
     def buscarEnemigo(self):
         return self.juego.searchAntagonist()
     
-    def obtenerComandos(self,ente):
+    def obtenerComandos(self, ente):
         return self.posicion.obtenerComandos(self)
     
     def esPersonaje(self):

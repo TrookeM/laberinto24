@@ -12,13 +12,13 @@ class LaberintoTrianguleBuilder(LaberintoBuilder):
         return Triangle()
     
     def fabricarNorte(self):
-        return Norte.obtenerInstancia()
+        return Norte.obtenerInstancia(self)
     
     def fabricarEste(self):
-        return Este.obtenerInstancia()
+        return Este.obtenerInstancia(self)
     
     def fabricarOeste(self):
-        return Oeste.obtenerInstancia()
+        return Oeste.obtenerInstancia(self)
     
     def fabricarHabitacion(self, num):
         hab = Habitacion(num)

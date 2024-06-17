@@ -7,7 +7,7 @@ class Este(Orientacion):
         if Este.__instance is None:
             Este.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Este.__instance is None:
             Este.__instance = Este()
         
@@ -21,7 +21,7 @@ class Este(Orientacion):
         forma.este.calcularPosicionDesde(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("Bienvenido a la Terreta.")
+        print("Este.")
         forma.este.aceptar(visitor)
     
     def putElementOn(self,em,cont):

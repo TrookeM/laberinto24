@@ -2,7 +2,7 @@ from Estado.Estado import Estado
 
 class Cerrada(Estado):
     
-    def abrir(self,gate):
+    def abrir(self, gate):
         gate.puedeAbrirse()
 
     def estaAbierta(self):

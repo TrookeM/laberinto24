@@ -7,7 +7,7 @@ class Sureste(Orientacion):
         if Sureste.__instance is None:
             Sureste.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Sureste.__instance is None:
             Sureste.__instance = Sureste()
         
@@ -21,7 +21,7 @@ class Sureste(Orientacion):
         forma.sureste.calcularPosicionDesde(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("La Indochina y tal.")
+        print("Sureste.")
         forma.sureste.aceptar(visitor)
     
     def putElementOn(self,em,cont):

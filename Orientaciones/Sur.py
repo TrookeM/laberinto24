@@ -7,7 +7,7 @@ class Sur(Orientacion):
         if Sur.__instance is None:
             Sur.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Sur.__instance is None:
             Sur.__instance = Sur()
         
@@ -21,7 +21,7 @@ class Sur(Orientacion):
         forma.sur.calcularPosicionDesde(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("Has puesto un pie en el territorio Tartessos.")
+        print("Sur.")
         forma.sur.aceptar(visitor)
     
     def putElementOn(self,em,cont):

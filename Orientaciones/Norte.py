@@ -7,7 +7,7 @@ class Norte(Orientacion):
         if Norte.__instance is None:
             Norte.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Norte.__instance is None:
             Norte.__instance = Norte()
         
@@ -21,7 +21,7 @@ class Norte(Orientacion):
         forma.norte.calcularPosicionDesde(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("Acabas de entrar en la TIERRA DE LOS VALIENTES.")
+        print("Norte.")
         forma.norte.aceptar(visitor)
     
     def putElementOn(self,em,cont):

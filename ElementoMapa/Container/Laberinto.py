@@ -1,4 +1,4 @@
-import os 
+import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'ElementoMapa')))
 
@@ -12,21 +12,21 @@ class Laberinto(Container):
     def agregarHabitacion(self, hab):
         self.objChildren.append(hab)
 
-    def entrar(self, ref):
+    def entrar(self, ente):
         h = self.getHab(1)
-        h.entrar(ref)
+        h.entrar(ente)
 
     def getHab(self, index):
         return self.objChildren[index - 1]
     
-    def recorrer(self, x):
+    def recorrer(self, order):
         for ch in self.objChildren:
-            ch.recorrer(x)
+            ch.recorrer(order)
 
-    def aceptar(self, visitante):
+    def aceptar(self, visitor):
         print("Recorrer laberinto.")
         for ch in self.objChildren:
-            ch.aceptar(visitante)
+            ch.aceptar(visitor)
 
     
     def __str__(self):

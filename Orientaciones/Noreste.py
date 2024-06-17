@@ -7,7 +7,7 @@ class Noreste(Orientacion):
         if Noreste.__instance is None:
             Noreste.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Noreste.__instance is None:
             Noreste.__instance = Noreste()
         
@@ -21,7 +21,7 @@ class Noreste(Orientacion):
         forma.noreste.verPosicion(forma,unPunto)
     
     def aceptar(self,visitor,forma):
-        print("Donde abunda la degeneración y el separatismo.")
+        print("Noreste.")
         forma.noreste.aceptar(visitor)
     
     def putElementOn(self,em,cont):

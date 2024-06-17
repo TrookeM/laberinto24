@@ -7,7 +7,7 @@ from Estado.EstadoPuerta.Abierta import Abierta
 
 class Puerta(ElementoMapa):
 
-    def __init__(self): 
+    def __init__(self):
         super().__init__()
         self.estado = Cerrada()
         self.lado1 = None

@@ -54,7 +54,7 @@ class Ente(ABC):
             arma = ente.obtenerBatePinchos()
         calc = (self.corazones) - (ente.poder + arma.poder)
         if calc > self.corazones:
-            self.setCorazones(self.vidas)
+            self.setCorazones(self.corazones)
         else:
             self.setCorazones(calc)
         if self.corazones < 0:
@@ -77,28 +77,28 @@ class Ente(ABC):
         unaOr.moverA(self)
 
     def irAlNorte(self):
-        self.irA(Norte.obtenerInstancia())
+        self.irA(Norte.obtenerInstancia(self))
 
     def irAlEste(self):
-        self.irA(Este.obtenerInstancia())
+        self.irA(Este.obtenerInstancia(self))
 
     def irAlOeste(self):
-        self.irA(Oeste.obtenerInstancia())
+        self.irA(Oeste.obtenerInstancia(self))
 
     def irAlSur(self):
-        self.irA(Sur.obtenerInstancia())
+        self.irA(Sur.obtenerInstancia(self))
 
     def irAlNoreste(self):
-        self.irA(Noreste.obtenerInstancia())
+        self.irA(Noreste.obtenerInstancia(self))
 
     def irAlNoroeste(self):
-        self.irA(Noroeste.obtenerInstancia())
+        self.irA(Noroeste.obtenerInstancia(self))
 
     def irAlSureste(self):
-        self.irA(Sureste.obtenerInstancia())
+        self.irA(Sureste.obtenerInstancia(self))
 
     def irAlSuroeste(self):
-        self.irA(Suroeste.obtenerInstancia())
+        self.irA(Suroeste.obtenerInstancia(self))
 
     def esPersonaje(self):
         return False
@@ -107,5 +107,5 @@ class Ente(ABC):
         return False
     
     @abstractmethod
-    def fenece():
+    def fenece(self):
         pass

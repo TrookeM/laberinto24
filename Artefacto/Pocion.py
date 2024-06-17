@@ -1,4 +1,4 @@
-from Artefactos.Artefacto import Artefacto
+from Artefacto.Artefacto import Artefacto
 
 class Pocion(Artefacto):
 #

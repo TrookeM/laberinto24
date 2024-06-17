@@ -1,17 +1,16 @@
 from ElementoMapa.Container.Container import Container
-from ElementoMapa.ElementoMapa import ElementoMapa
 class Habitacion(Container):
 
-    def entrar(self, obj):
-        obj.setPosicion(self)
+    def entrar(self, ente):
+        ente.setPosicion(self)
         print("Se encuentra ahora en la habitacion",self.ref)
     
-    def aceptar(self, vst):
-        print("Visitar habitación ", str(self.num))
-        vst.visitarHabitacion(self)
+    def aceptar(self, visitor):
+        print("Visitar habitación ", str(self.ref))
+        visitor.visitarHabitacion(self)
         for ch in self.objChildren:
-            ch.aceptar(vst)
-        self.form.aceptar(vst)
+            ch.aceptar(visitor)
+        self.form.aceptar(visitor)
 
     def esHabitacion(self):
         return True

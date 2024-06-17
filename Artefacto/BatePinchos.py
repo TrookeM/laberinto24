@@ -1,4 +1,4 @@
-from Artefactos.Artefacto import Artefacto
+from Artefacto.Artefacto import Artefacto
 from Command.Usar import Usar
 from Command.Soltar import Soltar
 

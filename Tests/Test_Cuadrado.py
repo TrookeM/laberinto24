@@ -2,24 +2,34 @@ import unittest
 import os
 from io import StringIO
 import sys
-sys.path.append('C:\\Users\\yorch\\Desktop\\PLaberinto\\laberinto24\\json')
+from pathlib import Path
 
 from LaberintoBuilder.Director import Director
 from Ente.Character import Character
 
-class First_test(unittest.TestCase):
+class Test_Cuadrado(unittest.TestCase):
 
     def setUp(self):
         super().setUp()
-        sys.stdout_save =sys.stdout
+        self.stdout_save = sys.stdout
         sys.stdout = StringIO()
+        
+        json_file = Path('json') / 'maze4hab.json'
+        if not json_file.exists():
+            raise FileNotFoundError(f"El archivo {json_file} no se encuentra.")
+        
         director = Director()
-        director.procesar('maze4hab.json')
+        director.procesar(str(json_file))
         self.juego = director.getJuego()
+        
         personaje = Character()
         personaje.seudonimo = "Juan"
         self.juego.agregarPersonaje(personaje)
-        sys.stdout=sys.stdout_save
+        
+        sys.stdout = self.stdout_save
+
+    def tearDown(self):
+        sys.stdout = self.stdout_save
 
     def testIniciales(self):
         self.assertEqual(self.juego is not None, True)
@@ -463,7 +473,7 @@ class First_test(unittest.TestCase):
         print("*******")
         self.assertEqual(self.juego.bichos[0].estaVivo(),False)
         self.juego.fase.esFinal()#El juego ha terminado al matar a los bichos.
-        print("TEST FUNCIONALES SUPERADAS.")
-        
+        print("TEST FUNCIONALIDADES SUPERADO.\n")
+
 if __name__ == '__main__':
     unittest.main()

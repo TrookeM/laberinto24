@@ -7,7 +7,7 @@ class Suroeste(Orientacion):
         if Suroeste.__instance is None:
             Suroeste.__instance = self
     
-    def obtenerInstancia():
+    def obtenerInstancia(self):
         if Suroeste.__instance is None:
             Suroeste.__instance = Suroeste()
         
