@@ -4,12 +4,15 @@ from Modo.Agresivo import Agresivo
 import random
 import sys
 sys.setrecursionlimit(150000)
+
 class Bicho(Ente):
 
     def __init__(self):
         super().__init__()
         self.modo = None
         self.numero_identificador = None
+        self.curado = False  # Atributo para controlar si ya se ha curado
+
     def set_posicion(self, pos):
         self.posicion = pos
         for observador in self.obsPosition:
@@ -18,7 +21,7 @@ class Bicho(Ente):
     def set_corazones(self, corazones):
         self.corazones = corazones
         print("Corazones de ", str(self), ":", str(self.corazones))
-        for observador in self.obsCorazones: 
+        for observador in self.obsCorazones:
             observador.corazonesBicho(self)
 
     def buscarEnemigo(self):
@@ -35,14 +38,14 @@ class Bicho(Ente):
         self.modo.actua(self)
 
     def ente_muere(self):
-        self.fallecido()
+        self.muerto()
 
-    def fallecido(self):
+    def muerto(self):
         self.estado = Muerto()
-        self.fenece()
+        self.muere()
         self.juego.muere_bicho()
 
-    def fenece(self):
+    def muere(self):
         print(str(self), " ha muerto.")
         self.corazones = 0
         self.estado = Muerto()
@@ -62,7 +65,14 @@ class Bicho(Ente):
         return True
     
     def __str__(self):
-        return "Bicho " + str(self.modo) + " " + str(self.numero_identificador)
+        return "Bicho" + " id: " + str(self.numero_identificador) + " " + str(self.modo)
     
     def __repr__(self):
         return "Bicho" + str(self.modo) + str(self.numero_identificador)
+
+    def esAtacadoPor(self, unEnte):
+        self.estado.enteEsAtacadoPor(self, unEnte)
+        # Aquí agregamos la llamada a curar si el modo es curativo y aún no se ha curado
+        if self.modo.esCurativo() and not self.curado:
+            self.modo.curar(self)
+            self.curado = True  # Marcamos que ya se ha curado una vez

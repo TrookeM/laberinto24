@@ -9,50 +9,61 @@ from Orientaciones.Suroeste import Suroeste
 from Estado.Vivo import Vivo
 import sys
 sys.setrecursionlimit(150000)
-from abc import ABC,abstractmethod
+from abc import ABC, abstractmethod
+
 class Ente(ABC):
 
     def __init__(self):
         self.corazones = 100
+        self.defensa = 20
         self.poder = 10
         self.estado = Vivo()
-        self.posicion= None
+        self.posicion = None
         self.juego = None
         self.obsPosition = []
         self.obsCorazones = []
 
-
-    def subscribePosicion(self,obs):
+    def subscribePosicion(self, obs):
         self.obsPosition.append(obs)
 
-    def subscribeVida(self,obs):
+    def subscribeVida(self, obs):
         self.obsCorazones.append(obs)
 
-    def setPosicion(self,pos):
+    def setPosicion(self, pos):
         self.posicion = pos
     
-    def setCorazones(self,corazones):
+    def setCorazones(self, corazones):
         self.corazones = corazones
-        print(str(self), " corazones: ",str(self.corazones))
+        print(str(self), "|corazones:", str(self.corazones) + "|")
 
     def atacar(self):
         unEnte = self.buscarEnemigo()
         if unEnte is not None:
             unEnte.esAtacadoPor(self)
     
-    def esAtacadoPor(self,unEnte):
-        self.estado.enteEsAtacadoPor(self,unEnte)
+    def esAtacadoPor(self, unEnte):
+        self.estado.enteEsAtacadoPor(self, unEnte)
 
-    def puedeSerAtacadoPor(self,unEnte):
+    def puedeSerAtacadoPor(self, unEnte):
         print("¿Puede ser atacado?")
         self.recalcularVidas(unEnte)
         if self.verificarEstado():
-            self.fenece()
+            self.muere()
 
     def recalcularVidas(self, ente):
         if ente.esPersonaje():
             arma = ente.obtenerBatePinchos()
-        calc = (self.corazones) - (ente.poder + arma.poder)
+        else:
+            arma = None
+
+        if self.esPersonaje() and self.defensa > 0:
+            defensa_efectiva = min(self.defensa, ente.poder)
+            dano_recibido = ente.poder + (arma.poder if arma else 0) - defensa_efectiva
+            self.defensa -= defensa_efectiva
+        else:
+            dano_recibido = ente.poder + (arma.poder if arma else 0)
+
+        calc = self.corazones - dano_recibido
         if calc > self.corazones:
             self.setCorazones(self.corazones)
         else:
@@ -73,7 +84,7 @@ class Ente(ABC):
     def estaVivo(self):
         return self.estado.estaVivo()
     
-    def irA(self,unaOr):
+    def irA(self, unaOr):
         unaOr.moverA(self)
 
     def irAlNorte(self):
@@ -107,5 +118,5 @@ class Ente(ABC):
         return False
     
     @abstractmethod
-    def fenece(self):
+    def muere(self):
         pass

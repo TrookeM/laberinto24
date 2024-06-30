@@ -1,12 +1,13 @@
 from Ente.Ente import Ente
 from Cuerpo.Cuerpo import Cuerpo
+
 class Character(Ente):
     
     def __init__(self):
         super().__init__()
-        self.seudonimo=None
-        self.mochila=None
-        self.cuerpo=Cuerpo()
+        self.seudonimo = None
+        self.mochila = None
+        self.cuerpo = Cuerpo()
 
     def obtenerComandosCuerpo(self):
         return self.cuerpo.obtenerComandos(self)
@@ -14,7 +15,7 @@ class Character(Ente):
     def obtenerBatePinchos(self):
         return self.cuerpo.obtenerArma()
 
-    def setBatePinchos(self,obj):
+    def setBatePinchos(self, obj):
         self.cuerpo.setBatePinchos(obj)
 
     def setPosicion(self, pos):
@@ -24,11 +25,11 @@ class Character(Ente):
     
     def setVidas(self, vida):
         self.vidas = vida
-        print("Vidas de ",str(self),":",str(self.vidas))
+        print("Vidas de ", str(self), ":", str(self.vidas))
         for obs in self.obsCorazones:
             obs.visualcorazoneshero()
     
-    def fenece(self):
+    def muere(self):
         self.juego.personajeMuere()
 
     def buscarEnemigo(self):

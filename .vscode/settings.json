@@ -1,7 +1,7 @@
 {
     "python.envFile": "${workspaceFolder}/.env",
     "terminal.integrated.env.windows": {
-      "PYTHONPATH": "C:/Users/yorch/Desktop/Universidad/Diseño del Software/laberinto24"
+      "PYTHONPATH": "C:/Users/yorch/Desktop/laberinto24"
     }
   }
   

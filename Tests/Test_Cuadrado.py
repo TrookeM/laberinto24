@@ -107,7 +107,7 @@ class Test_Cuadrado(unittest.TestCase):
         #Bicho 4
         b4 = bichos[3]
         self.assertEqual(b4.numero_identificador,4)
-        self.assertEqual(b4.modo.esPerezoso(),True)
+        self.assertEqual(b4.modo.esCurativo(),True)
         self.assertEqual(b4.posicion,self.juego.laberinto.objChildren[3])
         self.assertEqual(b4.juego,self.juego)
         self.assertEqual(b4.estado.estaVivo(),True)
@@ -275,11 +275,11 @@ class Test_Cuadrado(unittest.TestCase):
         self.assertEqual((pocion2:=arm3.objChildren[1]).esPocion(),True)
         self.assertEqual((com1:=pocion2.commands[0]).esCoger(),True)
         self.assertEqual(com1.receiver,pocion2)
-        #Katana
-        self.assertEqual((Katana2:=hab3.objChildren[0]).esBatePinchos(),True)
-        self.assertEqual(Katana2.ref,1)
-        self.assertEqual(Katana2.commands[0].esCoger(),True)
-        self.assertEqual(Katana2.commands[0].receiver,Katana2)
+        #BatePinchos
+        self.assertEqual((BatePinchos2:=hab3.objChildren[0]).esBatePinchos(),True)
+        self.assertEqual(BatePinchos2.ref,1)
+        self.assertEqual(BatePinchos2.commands[0].esCoger(),True)
+        self.assertEqual(BatePinchos2.commands[0].receiver,BatePinchos2)
         print("TEST DE OBJETOS SUPERADO.\n")
 
     def testFuncionalidades(self):
@@ -289,83 +289,84 @@ class Test_Cuadrado(unittest.TestCase):
         p2 = self.juego.getHab(2).form.este
         p3 = self.juego.getHab(4).form.norte
         p4 = self.juego.getHab(3).form.oeste
-        self.assertEqual(len(p1.commands),2)
-        self.assertEqual(p1.esPuerta(),True)
-        self.assertEqual(p1.commands[0].esEntrar(),True)
-        self.assertEqual(p1.commands[0].receiver,p1)
-        self.assertEqual(p1.commands[1].esCerrar(),True)
-        self.assertEqual(p1.commands[1].receiver,p1)
-        self.assertEqual(len(p2.commands),2)
-        self.assertEqual(p2.esPuerta(),True)
-        self.assertEqual(p2.commands[0].esEntrar(),True)
-        self.assertEqual(p2.commands[0].receiver,p2)
-        self.assertEqual(p2.commands[1].esCerrar(),True)
-        self.assertEqual(p2.commands[1].receiver,p2)
-        self.assertEqual(len(p3.commands),2)
-        self.assertEqual(p3.esPuerta(),True)
-        self.assertEqual(p3.commands[0].esEntrar(),True)
-        self.assertEqual(p3.commands[0].receiver,p3)
-        self.assertEqual(p3.commands[1].esCerrar(),True)
-        self.assertEqual(p3.commands[1].receiver,p3)
-        self.assertEqual(len(p4.commands),2)
-        self.assertEqual(p4.esPuerta(),True)
-        self.assertEqual(p4.commands[0].esEntrar(),True)
-        self.assertEqual(p4.commands[0].receiver,p4)
-        self.assertEqual(p4.commands[1].esCerrar(),True)
-        self.assertEqual(p4.commands[1].receiver,p4)
+        self.assertEqual(len(p1.commands), 2)
+        self.assertEqual(p1.esPuerta(), True)
+        self.assertEqual(p1.commands[0].esEntrar(), True)
+        self.assertEqual(p1.commands[0].receiver, p1)
+        self.assertEqual(p1.commands[1].esCerrar(), True)
+        self.assertEqual(p1.commands[1].receiver, p1)
+        self.assertEqual(len(p2.commands), 2)
+        self.assertEqual(p2.esPuerta(), True)
+        self.assertEqual(p2.commands[0].esEntrar(), True)
+        self.assertEqual(p2.commands[0].receiver, p2)
+        self.assertEqual(p2.commands[1].esCerrar(), True)
+        self.assertEqual(p2.commands[1].receiver, p2)
+        self.assertEqual(len(p3.commands), 2)
+        self.assertEqual(p3.esPuerta(), True)
+        self.assertEqual(p3.commands[0].esEntrar(), True)
+        self.assertEqual(p3.commands[0].receiver, p3)
+        self.assertEqual(p3.commands[1].esCerrar(), True)
+        self.assertEqual(p3.commands[1].receiver, p3)
+        self.assertEqual(len(p4.commands), 2)
+        self.assertEqual(p4.esPuerta(), True)
+        self.assertEqual(p4.commands[0].esEntrar(), True)
+        self.assertEqual(p4.commands[0].receiver, p4)
+        self.assertEqual(p4.commands[1].esCerrar(), True)
+        self.assertEqual(p4.commands[1].receiver, p4)
+
         #Cerrar puertas
         self.juego.cerrarPuertas()
-        print(p1.commands)
-        self.assertEqual(len(p1.commands),1)
-        self.assertEqual(p1.esPuerta(),True)
-        self.assertEqual(p1.commands[0].esAbrir(),True)
-        self.assertEqual(p1.commands[0].receiver,p1)
-        self.assertEqual(len(p2.commands),1)
-        self.assertEqual(p2.esPuerta(),True)
-        self.assertEqual(p2.commands[0].esAbrir(),True)
-        self.assertEqual(p2.commands[0].receiver,p2)
-        self.assertEqual(len(p3.commands),1)
-        self.assertEqual(p3.esPuerta(),True)
-        self.assertEqual(p3.commands[0].esAbrir(),True)
-        self.assertEqual(p3.commands[0].receiver,p3)
-        self.assertEqual(len(p4.commands),1)
-        self.assertEqual(p4.esPuerta(),True)
-        self.assertEqual(p4.commands[0].esAbrir(),True)
-        self.assertEqual(p4.commands[0].receiver,p4)
-        #commands personaje posición Habitación 1
+        self.assertEqual(len(p1.commands), 1)
+        self.assertEqual(p1.esPuerta(), True)
+        self.assertEqual(p1.commands[0].esAbrir(), True)
+        self.assertEqual(p1.commands[0].receiver, p1)
+        self.assertEqual(len(p2.commands), 1)
+        self.assertEqual(p2.esPuerta(), True)
+        self.assertEqual(p2.commands[0].esAbrir(), True)
+        self.assertEqual(p2.commands[0].receiver, p2)
+        self.assertEqual(len(p3.commands), 1)
+        self.assertEqual(p3.esPuerta(), True)
+        self.assertEqual(p3.commands[0].esAbrir(), True)
+        self.assertEqual(p3.commands[0].receiver, p3)
+        self.assertEqual(len(p4.commands), 1)
+        self.assertEqual(p4.esPuerta(), True)
+        self.assertEqual(p4.commands[0].esAbrir(), True)
+        self.assertEqual(p4.commands[0].receiver, p4)
+
+        # Commands personaje posición Habitación 1
         personaje = self.juego.prota
-        self.assertEqual(len(coms:=personaje.obtenerComandos(personaje)),5)
-        print("..")
-        print(coms)
-        print(coms[0])
-        coms[0].ejecutar(personaje)#Abrir armario 1
-        coms= personaje.obtenerComandos(personaje)
-        print(coms[0])
-        coms[0].ejecutar(personaje)#Entrar en armario 1 
-        coms= personaje.obtenerComandos(personaje)
-        coms[0].ejecutar(personaje)#Coger Pan
-        self.assertEqual(len(mochila:=personaje.mochila.children),1)
-        self.assertEqual((Pan:=mochila[0]).esPan(),True)
-        self.assertEqual(len((coms:=Pan.obtenerComandos(personaje))),2)
-        coms[0].ejecutar(personaje)#Soltar Pan
-        self.assertEqual(Pan.padre,personaje.posicion)
-        coms= personaje.obtenerComandos(personaje)
-        coms[0].ejecutar(personaje)#Volver a coger Pan
-        coms= personaje.mochila.children[0].obtenerComandos(personaje)
-        print(coms)
+        self.assertEqual(len(coms := personaje.obtenerComandos(personaje)), 5)
+        coms[0].ejecutar(personaje)  # Abrir armario 1
+        coms = personaje.obtenerComandos(personaje)
+        coms[0].ejecutar(personaje)  # Entrar en armario 1
+        coms = personaje.obtenerComandos(personaje)
+        coms[0].ejecutar(personaje)  # Coger Pan
+        self.assertEqual(len(mochila := personaje.mochila.children), 1)
+        self.assertEqual((Pan := mochila[0]).esPan(), True)
+        self.assertEqual(len((coms := Pan.obtenerComandos(personaje))), 2)
+        coms[0].ejecutar(personaje)  # Soltar Pan
+        self.assertEqual(Pan.padre, personaje.posicion)
+        coms = personaje.obtenerComandos(personaje)
+        coms[0].ejecutar(personaje)  # Volver a coger Pan
+        coms = personaje.mochila.children[0].obtenerComandos(personaje)
         vida = personaje.corazones
-        coms[1].ejecutar(personaje)#Comer Pan
-        self.assertEqual(personaje.corazones, vida + Pan.vida) #Se le sumará la vida del Pan
-        print(personaje.mochila.children)
-        coms= personaje.obtenerComandos(personaje)
-        coms[0].ejecutar(personaje)#Irse del armario
-        coms= personaje.obtenerComandos(personaje)
-        print(coms)
-        bomba=coms[2].receiver
+        coms[1].ejecutar(personaje)  # Comer Pan
+        self.assertEqual(personaje.corazones, vida + Pan.vida)  # Se le sumará la vida del Pan
+        coms = personaje.obtenerComandos(personaje)
+        coms[0].ejecutar(personaje)  # Irse del armario
+        coms = personaje.obtenerComandos(personaje)
+        bomba = coms[2].receiver
         corazones = personaje.corazones
-        coms[2].ejecutar(personaje)#Detonamos la bomba
-        self.assertEqual(bomba.activa,False)
-        self.assertEqual(personaje.corazones,corazones-bomba.damage)#Comprobamos que el personaje ha recibido daño de la explosión
+        defensa = personaje.defensa  # Obtener la defensa del personaje
+        print(f"Personaje corazones antes de la explosión: {corazones}")
+        print(f"Bomba daño: {bomba.damage}")
+        print(f"Defensa del personaje: {defensa}")
+        daño_recibido = max(bomba.damage - defensa, 0)  # Asegurarse que el daño no sea negativo
+        print(f"Daño recibido ajustado por defensa: {daño_recibido}")
+        coms[2].ejecutar(personaje)  # Detonamos la bomba
+        print(f"Personaje corazones después de la explosión: {personaje.corazones}")
+        self.assertEqual(bomba.activa, False)
+        self.assertEqual(personaje.corazones, corazones - daño_recibido)  # Comprobamos que el personaje ha recibido daño ajustado por defensa
         coms= personaje.obtenerComandos(personaje)
         coms[3].ejecutar(personaje)#Abrimos la puerta 1 - 2
         coms= personaje.obtenerComandos(personaje)
@@ -373,7 +374,7 @@ class Test_Cuadrado(unittest.TestCase):
         hab2 = self.juego.getHab(2)
         self.assertEqual(personaje.posicion,hab2)#Comprobamos que la posición del personaje es la habitación 2
         coms= personaje.obtenerComandos(personaje)
-        coms[0].ejecutar(personaje)#Cogemos la Katana...
+        coms[0].ejecutar(personaje)#Cogemos el BatePinchos...
         self.assertEqual(len(hijos:=personaje.mochila.children), 1)
         print(hijos)
         self.assertEqual((esc:=hijos[0]).esBatePinchos(),True)
@@ -383,13 +384,13 @@ class Test_Cuadrado(unittest.TestCase):
         bicho2 = self.juego.bichos[1]
         coms[1].ejecutar(personaje)
         self.assertEqual(personaje.posicion, bicho2.posicion) #Vemos si está en el mismo lugar que bicho perezoso.
-        self.assertEqual(len(personaje.mochila.children),0)#Ya no tiene la Katana de metal en el inventario
-        self.assertEqual(personaje.cuerpo.brazoAtaque,esc)#Tiene la Katana en la mano derecha
+        self.assertEqual(len(personaje.mochila.children),0)#Ya no tiene el BatePinchos de metal en el inventario
+        self.assertEqual(personaje.cuerpo.brazoAtaque,esc)#Tiene el BatePinchos en la mano derecha
         print(bicho2.corazones)
         personaje.atacar()
         personaje.atacar()
         print(bicho2.corazones)
-        self.assertEqual(bicho2.estaVivo(),False) #Acabamos con el bicho 2 perezoso con 2 golpes gracias a la Katana.
+        self.assertEqual(bicho2.estaVivo(),False) #Acabamos con el bicho 2 perezoso con 2 golpes gracias a el BatePinchos.
         coms= personaje.obtenerComandos(personaje)
         coms[2].ejecutar(personaje)
         coms= personaje.obtenerComandos(personaje)
@@ -404,8 +405,9 @@ class Test_Cuadrado(unittest.TestCase):
         self.assertEqual(personaje.corazones,corazones-bomba.damage)#Comprobamos que el personaje ha recibido daño de la explosión
         personaje.atacar()
         personaje.atacar()
+        personaje.atacar()
         bicho4 = self.juego.bichos[3]
-        self.assertEqual(bicho4.estaVivo(),False) #Acabamos con el bicho 2 perezoso con 2 golpes gracias a la Katana.
+        self.assertEqual(bicho4.estaVivo(),False) #Acabamos con el bicho 2 perezoso con 2 golpes gracias a el BatePinchos.
         coms= personaje.obtenerComandos(personaje)
         coms[0].ejecutar(personaje)
         coms= personaje.obtenerComandos(personaje)
@@ -428,14 +430,14 @@ class Test_Cuadrado(unittest.TestCase):
         personaje.atacar()
         personaje.atacar()
         personaje.atacar()
-        self.assertEqual(self.juego.bichos[2].estaVivo(),False)#Matamos a un bicho agresivo con 3 golpes de Katana
+        self.assertEqual(self.juego.bichos[2].estaVivo(),False)#Matamos a un bicho agresivo con 3 golpes del BatePinchos
         
         coms= personaje.obtenerComandos(personaje)
         print(coms[3], "Armario 3")
         coms[3].ejecutar(personaje)#Abrir armario 3
         coms= personaje.obtenerComandos(personaje)
         print(coms[3], "Armario 3")
-        coms[3].ejecutar(personaje)#Entrar en armario 3 
+        coms[3].ejecutar(personaje)#Entrar en armario 3
         coms= personaje.obtenerComandos(personaje)
         print(coms[0])
         coms[0].ejecutar(personaje)#Coger Pocion

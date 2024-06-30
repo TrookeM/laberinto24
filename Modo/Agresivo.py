@@ -9,4 +9,4 @@ class Agresivo(Modo):
         return True
     
     def __str__(self):
-        return "Rata de cloaca apareció"
+        return "Rata de cloaca aparecio"

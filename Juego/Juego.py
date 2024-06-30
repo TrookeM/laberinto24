@@ -12,6 +12,7 @@ from Artefacto.BatePinchos import BatePinchos
 from Ente.Bicho import Bicho
 from Modo.Agresivo import Agresivo
 from Modo.Perezoso import Perezoso
+from Modo.Curativo import Curativo
 from Fase.Comienzo import Comienzo
 from Fase.Final import Final
 from Artefacto.Mochila import Mochila
@@ -90,7 +91,7 @@ class Juego():
             self.terminarHilo(bicho)
     
     def terminarHilo(self, unBicho):
-        unBicho.fenece()
+        unBicho.muere()
 
     def personajeMuere(self):
         print(f"{str(self.prota.seudonimo)} ha muerto. ¡HAS PERDIDO!")
@@ -161,6 +162,9 @@ class Juego():
     def fabricarModoPerezoso(self):
         return Perezoso()
     
+    def fabricarModoCurativo(self):
+        return Curativo()
+    
     def fabricarBicho(self):
         return Bicho()
     
@@ -179,6 +183,17 @@ class Juego():
 
         bicho.posicion = posicion
         bicho.modo = self.fabricarModoPerezoso()
+
+        bicho.corazones = 10
+        bicho.poder = 1
+
+        return bicho
+    
+    def fabricarBichoCurativo(self,posicion):
+        bicho = self.fabricarBicho()
+
+        bicho.posicion = posicion
+        bicho.modo = self.fabricarModoCurativo()
 
         bicho.corazones = 10
         bicho.poder = 1
@@ -285,8 +300,10 @@ class Juego():
 
         primerBicho = obj.fabricarBichoPerezoso(hab1)
         segundoBicho = obj.fabricarBichoAgresivo(hab2)
+        tercerBicho = obj.fabricarBichoCurativo(hab3)
         self.agregarBicho(primerBicho)
         self.agregarBicho(segundoBicho)
+        self.agregarBicho(tercerBicho)
 
     def nuevoLaberinto(self):
         self.laberinto = self.fabricarLaberinto()
@@ -340,8 +357,10 @@ class Juego():
 
         bicho1 = self.fabricarBichoPerezoso(hab1)
         bicho2 = self.fabricarBichoAgresivo(hab2)
+        bicho3 = self.fabricarBichoCurativo(hab3)
         self.agregarBicho(bicho1)
         self.agregarBicho(bicho2)
+        self.agregarBicho(bicho3)
 
 
     def laberinto2HabFM(self):

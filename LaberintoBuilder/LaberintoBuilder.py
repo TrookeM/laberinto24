@@ -16,6 +16,7 @@ from Forma.Square import Square
 from Juego.Juego import Juego
 from Modo.Agresivo import Agresivo
 from Modo.Perezoso import Perezoso
+from Modo.Curativo import Curativo
 from Orientaciones.Este import Este
 from Orientaciones.Norte import Norte
 from Orientaciones.Oeste import Oeste
@@ -48,6 +49,9 @@ class LaberintoBuilder():
     
     def fabricarModoPerezoso(self):
         return Perezoso()
+    
+    def fabricarModoCurativo(self):
+        return Curativo()
     
     def fabricarBicho(self):
         return Bicho()
@@ -154,6 +158,16 @@ class LaberintoBuilder():
         bicho.poder = 25
 
         return bicho
+    
+    def fabricarBichoCurativo(self, posicion):
+        bicho = self.fabricarBicho()
+        bicho.posicion = posicion
+        bicho.modo = self.fabricarModoCurativo()
+
+        bicho.corazones = 50
+        bicho.poder = 15
+
+        return bicho
 
     def fabricarBichoAlternativo(self, modo, posicion):
         hab = self.juego.getHab(posicion)
@@ -162,6 +176,8 @@ class LaberintoBuilder():
             bicho = self.fabricarBichoAgresivo(hab)
         if modo == "perezoso":
             bicho = self.fabricarBichoPerezoso(hab)
+        if modo == "curativo":
+            bicho = self.fabricarBichoCurativo(hab)
         
         if bicho is not None:
             self.juego.agregarBicho(bicho)
